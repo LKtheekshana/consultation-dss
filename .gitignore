@@ -17,3 +17,9 @@ venv/
 # Submissions made through the web app (may contain personal views)
 data/submissions/*
 !data/submissions/.gitkeep
+
+# The three files the deployed web app reads (repository is private):
+# anonymized submission text and issue area only, no demographics or timestamps
+!data/processed/clean_responses.csv
+!data/processed/embeddings.pkl
+!data/processed/retrieval_settings.json

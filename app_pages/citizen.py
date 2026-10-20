@@ -154,16 +154,21 @@ with tab_summary:
                     backup_reason = str(e)
             else:
                 backup_reason = "no Llama API key is set"
-            if backup_reason:
-                # Offline backup: FLAN-T5 runs on this computer (rated lower in the evaluation)
-                with st.spinner("Llama is unavailable: writing summary with the offline model ..."):
-                    generate, count_tokens = get_summarizer()
-                    summary, info = summarize_texts(texts, generate, count_tokens)
-                model = config.SUMMARY_MODEL
-            info["seconds"] = time.perf_counter() - start
-            st.session_state["summary"] = {"key": key, "model": model, "backup": backup_reason,
-                                           "text": summary, "info": info,
-                                           "ids": [rid for rid, _ in hits[:info["n_used"]]]}
+            if backup_reason and not config.OFFLINE_SUMMARY_BACKUP:
+                st.error(f"Llama is unavailable ({backup_reason}), and the offline backup model "
+                         "is switched off on this server. Please try again in a few minutes.",
+                         icon=":material/cloud_off:")
+            else:
+                if backup_reason:
+                    # Offline backup: FLAN-T5 runs locally (rated lower in the evaluation)
+                    with st.spinner("Llama is unavailable: writing summary with the offline model ..."):
+                        generate, count_tokens = get_summarizer()
+                        summary, info = summarize_texts(texts, generate, count_tokens)
+                    model = config.SUMMARY_MODEL
+                info["seconds"] = time.perf_counter() - start
+                st.session_state["summary"] = {"key": key, "model": model, "backup": backup_reason,
+                                               "text": summary, "info": info,
+                                               "ids": [rid for rid, _ in hits[:info["n_used"]]]}
 
         result = st.session_state.get("summary")
         if result:

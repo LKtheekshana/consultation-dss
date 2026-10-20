@@ -1,0 +1,9 @@
+{
+  "method": "dynamic",
+  "static_threshold": 0.5,
+  "dynamic_k": 1.0,
+  "grid_threshold": 0.27,
+  "top_k": 5,
+  "model_name": "sentence-transformers/all-mpnet-base-v2",
+  "synthetic": false
+}

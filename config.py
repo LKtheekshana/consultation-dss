@@ -2,6 +2,7 @@
 
 Change values here instead of editing the scripts.
 """
+import os
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
@@ -240,6 +241,16 @@ GENERATION_LIMIT = None
 # the retrieval database automatically.
 SUBMISSIONS_DIR = ROOT / "data" / "submissions"
 SUBMISSIONS_FILE = SUBMISSIONS_DIR / "submissions.csv"
+
+# On a server with little memory (e.g. Streamlit Community Cloud) the offline
+# FLAN-T5 backup (about 3 GB) cannot be loaded. Set OFFLINE_SUMMARY_BACKUP = "false"
+# in the environment or the app's secrets to switch it off; summaries then use
+# Llama only.
+OFFLINE_SUMMARY_BACKUP = os.environ.get("OFFLINE_SUMMARY_BACKUP", "true").strip().lower() != "false"
+
+# If OFFICE_PASSWORD is set (environment, app secrets or .env), the office inbox
+# asks for it. Left unset when the app runs only on this computer.
+OFFICE_PASSWORD_SETTING = "OFFICE_PASSWORD"
 
 # Issue areas offered in the submission form (same as the questionnaire)
 ISSUE_AREAS = [

@@ -1,16 +1,31 @@
 """Office inbox: submissions received through the citizen portal (prototype)."""
 from __future__ import annotations
 
+import hmac
+
 import pandas as pd
 import streamlit as st
 
 import config
+from llm import env_value
 from submissions import load_submissions, receipt_text
 
 st.title("Office inbox")
 st.caption("Submissions sent through the citizen portal of this prototype. In a real "
            "deployment this page would require a staff login, and submissions would go to "
            "the Information Center's own systems.")
+
+# Staff password, required only when OFFICE_PASSWORD is set (e.g. on a public server)
+password = env_value(config.OFFICE_PASSWORD_SETTING)
+if password and not st.session_state.get("office_unlocked"):
+    with st.form("office_login"):
+        entered = st.text_input("Staff password", type="password")
+        if st.form_submit_button("Open inbox", icon=":material/lock_open:"):
+            if hmac.compare_digest(entered.encode(), password.encode()):
+                st.session_state["office_unlocked"] = True
+                st.rerun()
+            st.error("Incorrect password.")
+    st.stop()
 
 subs = load_submissions()
 if subs.empty:
