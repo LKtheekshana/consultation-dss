@@ -1,0 +1,19 @@
+# Secrets
+.env
+
+# Real participant data must not be uploaded to GitHub
+data/raw/**
+data/processed/**
+!data/**/
+!data/**/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Submissions made through the web app (may contain personal views)
+data/submissions/*
+!data/submissions/.gitkeep

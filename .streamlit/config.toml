@@ -1,0 +1,5 @@
+# Streamlit's file watcher scans every loaded module; once transformers is
+# loaded, that scan imports optional vision modules that need torchvision
+# (not installed, not used) and crashes the app. Restart the app after editing code.
+[server]
+fileWatcherType = "none"

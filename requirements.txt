@@ -1,0 +1,30 @@
+# Stage 1: preprocessing
+pandas>=2.0
+nltk>=3.8
+
+# Stage 2-3: embeddings and retrieval
+# (sentence-transformers also installs PyTorch, about 200 MB-2 GB)
+numpy>=1.26
+sentence-transformers>=2.7
+scipy>=1.11            # Wilcoxon significance test in the retrieval report
+
+# Stage 4: summarization (FLAN-T5)
+transformers>=4.40
+
+# Stage 5: generation with Llama 3 (hosted API)
+requests>=2.31
+
+# Stage 6: web app
+streamlit>=1.35
+
+# Stage 7: evaluation
+rouge-score>=0.1.2
+sacrebleu>=2.4
+bert-score>=0.3.13
+krippendorff>=0.6
+
+# Testing
+pytest>=8.0
+
+# Figures (not needed to run the system)
+matplotlib>=3.8
